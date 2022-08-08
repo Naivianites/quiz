@@ -1,0 +1,81 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 1.6em;
+    background-color: #24a0ed;
+    color: #000;
+}
+
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+
+.container{
+    width: 50%;
+    margin: 20px auto;
+    overflow: auto;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px 30px 20px;
+    background-color: #fff;
+    box-shadow: 10px 0 40px rgba(0,0,0,0.1);
+    text-align: center;
+}
+header{
+    text-align: center;
+}
+footer{
+    text-align: center;
+    padding-top: 5px;
+}
+main{
+padding-bottom: 20px;
+}
+a.start, .submit{
+    display: inline-block;
+    color:  #fff;
+    background-color: #24a0ed;
+    padding: 6px 13px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.current{
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: #ccc dotted 1px;
+    margin: 20px 0 10px 0;
+}
+.temp{
+    text-align: left;
+    width: 70%;
+    margin: 0 auto;
+}
+.temp p{
+    font-size: 1.3rem;
+}
+ul li{
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.form p{
+    margin: 0;
+}
+
+.inputs input[type='text']{
+    padding: 8px;
+    margin: 8px auto;
+    width: 80%;
+}
+.inputs input[type='number'], .questions{
+    width: 5%;
+    padding: 8px;
+}
+.inputs input[type='submit']{
+    padding: 8px;
+    margin-top: 20px;
+}

@@ -1,0 +1,167 @@
+:root{
+    /* /colors to be use */
+    --clr-darkgray: rgb(66, 66, 66);
+    --clr-white: #fff;
+    --clr-mastard: #FFC907;
+    --clr-oranger: #FF4307; 
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.5em;
+    font-weight: 300;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+.navigation-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--clr-darkgray);
+    height: 70px;
+}
+#logo{
+    color: var(--clr-mastard);
+}
+
+/* thos whow will need white font */
+.navigation-top ul a, .navigation-top, .font-container{
+    color: var(--clr-white);
+    padding: 0 20px 0 20px;
+}
+
+.navigation-top ul{
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.navigation-top #home, .navigation-top #about, .navigation-top #login{
+    /* border: 1px solid #fff; */
+    padding: 5px 20px;
+    border-radius: 2px;
+    transition: .3s ease;
+}
+
+.navigation-top #login{
+    background-color: var(--clr-mastard);
+    color: var(--clr-darkgray);
+    margin-left: 5px;
+}
+
+.navigation-top #login:focus{
+    background-color: var(--clr-oranger);
+    color: var(--clr-white);
+}
+.navigation-top #login:hover{
+    background-color: #ffcf23;
+}
+.navigation-top #home:hover, .navigation-top #about:hover{
+    background-color: rgba(255,255,255, .5);
+    color: #000;
+}
+.frontpage{
+    background-color: rgba(0,0,0, .8);
+    background-image: url("/homepage/img/bg.jpg");
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100vh - 70px);
+}
+/* font title */
+.font-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 1px solid #fff; */
+    padding: 20px;
+    text-align: center;
+}
+#css{
+    color: var(--clr-mastard);
+}
+.font-container h2{
+    font-size: 4rem;
+}
+.font-container p{
+    font-size: 1.3rem;
+}
+.font-container a{
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: var(--clr-white);
+    background-color: var(--clr-oranger);
+    transition: .3s ease;
+}
+.font-container a:hover{
+    background-color: #ffcf23;
+    color: var(--clr-darkgray);
+}
+
+.front-botton{
+    background-color: rgba(12, 18, 35);
+}
+.lesson-container{
+    padding: 50px 0;
+}
+.front-botton .lessons{
+    width: 70%;
+    padding: 20px 0;
+    margin: 0 auto;
+    color: var(--clr-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.front-botton .lessons .lesson-content{
+    padding: 20px 40px;
+}
+.front-botton .lessons .lesson-content p{
+    line-height: 1.7em;
+}
+.front-botton .lessons .lesson-content, .front-botton .lessons .lesson-img{
+    flex: 1;
+}
+.front-botton .lessons .lesson-img img{
+    width: 100%;
+    height: auto;
+}
+
+.activity-container{
+    background-color: rgba(0, 0, 0, .8);
+    background-image: url("/homepage/img/bg-2.jpg");
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    color: var(--clr-white);
+    position: relative;
+    padding: 30px 0 70px 0;
+}
+.activity-container .activity-carousel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.carousel-item img{
+    width: 100% !important;
+    height: 500px;
+}
+footer{
+    padding: 20px 0 10px 0;
+    background-color: rgba(12, 18, 35);
+}
