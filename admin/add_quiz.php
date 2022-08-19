@@ -1,3 +1,19 @@
+<?php
+require "../function_queries.php";
+
+if(!isset($_SESSION['users_role'])){
+  header("location:../login/login.php");
+}
+else{
+  if($_SESSION['users_role'] != "admin"){
+    session_destroy();
+    header("location:../login/login.php");
+  }
+}
+
+// require "../function_queries.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,22 +22,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin | Add Quiz</title>
-
-  <!-- fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;500;700&display=swap" rel="stylesheet" />
-
-  <!-- font-awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" />
-
-  <!-- alternative fonts box-icon-->
-  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
-
-  <!-- bs -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <link rel="stylesheet" href="/user/css/style.css" />
+  <?php require "../header_links.php";?>
+  <link rel="stylesheet" href="../user/css/style.css" />
 </head>
 
 <body>
@@ -248,30 +250,7 @@
   </main>
 
   <!-- side bars -->
-  <aside class="sidebar-top">
-    <div class="sidebar-top-img">
-      <img src="/user/img/no-img.jpg" alt="" />
-      <h4 class="text-light">Marvin Madera</h4>
-    </div>
-    <div class="sidebar-bottom">
-      <a href="/admin/index.html">
-        <i class="bx bxs-dashboard"></i>
-        Dashboard</a
-      >
-      <a href="/admin/accounts.html">
-        <i class="bx bxs-user-plus"></i>
-        Accounts</a
-      >
-      <a href="/admin/add_quiz.html">
-        <i class="bx bxs-brain"></i>
-        Add Quiz</a
-      >
-      <a href="/admin/category.html">
-        <i class="bx bxs-category-alt"></i>
-        Category</a
-      >
-    </div>
-  </aside>
+  <?php include "sidebar.php"?>
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- font awesome -->

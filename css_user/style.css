@@ -26,8 +26,9 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--clr-darkgray);
-    height: 70px;
+    position: absolute;
+    width: 100%;
+    top: 10px;
 }
 #logo{
     color: var(--clr-mastard);
@@ -36,7 +37,7 @@ a{
 /* thos whow will need white font */
 .navigation-top ul a, .navigation-top, .font-container{
     color: var(--clr-white);
-    padding: 0 20px 0 20px;
+    padding: 0 20px;
 }
 
 .navigation-top ul{
@@ -68,15 +69,7 @@ a{
     background-color: rgba(255,255,255, .5);
     color: #000;
 }
-.frontpage{
-    background-color: rgba(0,0,0, .8);
-    background-image: url("/homepage/img/bg.jpg");
-    background-blend-mode: multiply;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: calc(100vh - 70px);
-}
+
 /* font title */
 .font-container{
     position: absolute;
@@ -136,25 +129,6 @@ a{
 .front-botton .lessons .lesson-img img{
     width: 100%;
     height: auto;
-}
-
-.activity-container{
-    background-color: rgba(0, 0, 0, .8);
-    background-image: url("/homepage/img/bg-2.jpg");
-    background-blend-mode: multiply;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-    color: var(--clr-white);
-    position: relative;
-    padding: 30px 0 70px 0;
-}
-.activity-container .activity-carousel{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .carousel-item img{

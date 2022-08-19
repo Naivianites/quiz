@@ -6,40 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online CSS Quiz | Home</title>
-
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;500;700&display=swap" rel="stylesheet" />
-
-    <!-- font-awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" />
-
-    <!-- alternative fonts box-icon-->
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
-
-    <!-- bs -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <?php include "./header_links.php";?>
     <!-- my css -->
-    <link rel="stylesheet" href="/homepage/css/style.css">
-    <link rel="stylesheet" href="/homepage/css/about.css">
+    <link rel="stylesheet" href="./css_user/style.css">
+    <link rel="stylesheet" href="./css_user/about.css">
 </head>
 
 <body>
-    <header>
-        <nav class="navigation-top">
-            <h1><span id="logo">Computer</span> System Servicing</h1>
-            <ul>
-                <li><a href="/homepage/index.html" id="home">Home</a></li>
-                <li><a href="/homepage/about.html" id="about">About</a></li>
-                <li><a href="#" id="home">COC Courses</a></li>
-                <li><a href="#" id="login">Sign-in</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include "headers.php";?>
     <!-- main content -->
-    <main>
+    <main class="mt-5">
         <div class="about-hero">
             <div class="title ">
                 <div class="text">
@@ -58,18 +34,16 @@
                 </div>
                 <div class="mt-3" id="container-btn ">
                     <a href="#" class="text-center" id="contact">Contact me</a>
-                    <a href="#" download="/homepage/img/img1.jpg" class="text-center" id="cv">Download CV</a>
+                    <a href="#" download="img/img1.jpg" class="text-center" id="cv">Download CV</a>
                 </div>
 
             </div>
             <div class="picture">
-                <img src="/homepage/img/pic.png" alt="">
+                <img src="img/pic.png" alt="">
             </div>
         </div>
     </main>
-    <!-- <footer class="text-center text-light">
-        <p>&copy;copyright 2020 create and design by Marvin C. Madera</p>
-    </footer> -->
+    <?php include "footer.php";?>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- font awesome -->
