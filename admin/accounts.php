@@ -86,7 +86,7 @@ else{
       </tbody>
     </table>
   </main>
-
+        
   <!-- side bars -->
   <?php include "sidebar.php" ?>
   <!-- JavaScript Bundle with Popper -->

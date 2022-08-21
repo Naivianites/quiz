@@ -8,7 +8,7 @@ $date_created = date("F j, Y, g:i:s A");
 $errors = array();
 // update id
 
-if(isset($_SESSION["user_id"])){
+if (isset($_SESSION["user_id"])) {
     $id = $_SESSION["user_id"];
 }
 
@@ -49,7 +49,9 @@ function total_users()
 
 
 #####################################################################################
-// Edit Functions
+// Account Queries
+
+// edit
 function get_users_id($id)
 {
     global $mysqli;
@@ -126,74 +128,102 @@ function update_users_data($id, $username, $email, $password, $role)
 
 
 
+
 #####################################################################################
-// category functions
-function add_category($category)
+// ADD QUIZ
+// display all questions
+function get_coc_questions()
+{
+    global $mysqli;
+
+    $sql = "SELECT * FROM `coc1`";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function coc1_insert($question_number, $question_text)
 {
     global $mysqli, $date_created;
-
     $date_edited = "";
 
-    $sql = "INSERT INTO `category` (category, date_created, date_edited) VALUES(?, ?, ?)";
+    $sql = "INSERT INTO `coc1` (question_number, question_text, date_created, date_edited) VALUES(?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sss", $category, $date_created, $date_edited);
+    $stmt->bind_param("ssss", $question_number, $question_text, $date_created, $date_edited);
     return $stmt->execute();
 }
 
-// display all category to the category page
-function get_category()
-{
-    global $mysqli;
-
-    $sql = "SELECT * FROM `category`";
-    $result = $mysqli->query($sql);
-    return $result;
-}
-
-// fetch data via id
-
-function get_category_info($id)
+function coc1_insert_choices($question_number, $is_correct, $values)
 {
     global $mysqli, $date_created;
     $date_edited = "";
 
-    $sql = "SELECT * FROM `category` WHERE id=?";
+    $sql = "INSERT INTO `coc1_choices` (question_number, is_correct, choices, date_created, date_edited) VALUES(?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result;
+    $stmt->bind_param("sssss", $question_number, $is_correct, $values, $date_created, $date_edited);
+    return $stmt->execute();
 }
 
-
-function update_category($category)
+function edit_questions($question_number)
 {
-    global $mysqli, $date_edited, $id;
-    
-    $sql = "UPDATE `category` SET `id`='$id', `category`='$category',`date_edited`='$date_edited' WHERE `id`='$id'";
+    global $mysqli;
+    $sql = "SELECT * FROM `coc1` WHERE `question_number`='$question_number'";
+    $result = $mysqli->query($sql);
+    return $result;
+    // 
+}
 
+function edit_choice_questions($question_number)
+{
+    global $mysqli;
+    $sql = "SELECT * FROM `coc1_choices` WHERE `question_number`='$question_number'";
+    $result = $mysqli->query($sql);
+    return $result;
+    // 
+}
+
+function get_correct_choice($question_number, $question_text)
+{
+    global $mysqli, $date_edited;
+
+    $sql = "UPDATE `coc1` SET `question_text`='$question_text', `date_edited`='$date_edited' WHERE `question_number`='$question_number'";
     $result = $mysqli->query($sql);
     return $result;
 }
 
 
-// DELETE CATEGORY
+// update quiz
+function update_coc_questions($question_number, $question_text){
+    global $mysqli, $date_edited;
 
-function delete($id){
+    $sql = "UPDATE `coc1` SET `question_text`='$question_text',`date_edited`='$date_edited' WHERE `question_number`='$question_number'";
+
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function delete_question($question_number){
     global $mysqli;
 
-    $sql = "DELETE FROM `category` WHERE id=$id";
-
+    $sql = "DELETE FROM `coc1` WHERE `question_number` = $question_number";
     $result = $mysqli->query($sql);
-
     return $result;
 }
 
+function delete_choices($question_number){
+    global $mysqli;
+
+    $sql = "DELETE FROM `coc1_choices` WHERE `question_number` = $question_number";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+// END OF ADD QUIZ
 #####################################################################################
 
 
 
 
+
+// SUBMIT PROCESSING
 // 4. collect data coming signup page
 if (isset($_POST['edit'])) {
     // users id
@@ -264,52 +294,153 @@ if (isset($_POST['edit'])) {
     }
 }
 
+// add quiz transactions
 
-// category form
-if (isset($_POST["submit-category"])) {
-    $category =  mysqli_escape_string($mysqli, $_POST["category"]);
+if (isset($_POST['add_quiz_btn'])) {
+    $question_text = $_POST['question_text'];
+    $correct_choice = $_POST['correct_choice'];
+    $question_number = $_POST['question_number'];
+    $choice1 = $_POST['choice1'];
+    $choice2 = $_POST['choice2'];
+    $choice3 = $_POST['choice3'];
 
-    if ($category == NULL) {
-        $errors['category-error'] = "Input field is required!";
+    $choice = array();
+
+    // the reason i do this is because I need to track the correct choices using key
+    $choice[1] = $choice1;
+    $choice[2] = $choice2;
+    $choice[3] = $choice3;
+
+    $fields = [$question_number, $question_text, $correct_choice, $choice1, $choice2, $choice3];
+
+    foreach ($fields as $field) {
+        if ($field == NULL) {
+            $_SESSION['alert-class'] = "alert-danger";
+            $errors['field-error'] = "All fields are required!";
+            break;
+        }
     }
 
+    if ($correct_choice > 3) {
+        $_SESSION['alert-class'] = "alert-danger";
+        $errors['field-error'] = "Value must be less than or equal to 3";
+    }
+
+    // if no error then process data
     if (count($errors) === 0) {
-        // process indormation
-        if (add_category($category)) {
-            $_SESSION['alert-class'] = "alert-success";
-            $_SESSION['category-msg'] = "successdully added category";
-            header("location:category.php");
-            exit();
+        /*
+            1. we need to store them in separate table 
+            2. we need to validate question text and number if succeed the process choices
+            3. if everything is good then redirect it to add quiz page
+        */
+        // process question text and table
+        $is_correct = null;
+        if (coc1_insert($question_number, $question_text)) {
+
+            // we have to loop in order to insert 1 by 1
+            foreach ($choice as $key => $values) {
+                if ($key == $correct_choice) {
+                    $is_correct = 1;
+                } else {
+                    $is_correct = 0;
+                }
+
+                // insert data after every loop
+                $date_edited = "";
+                // $sql = "INSERT INTO `coc1_choices` (`question_number`, `is_correct`, `choices`, `date_created`, `date_edited`) VALUES($question_number, $is_correct, $values, $date_created, $date_edited)";
+
+                $sql = "INSERT INTO `coc1_choices`(`question_number`, `is_correct`, `choices`, `date_created`, `date_edited`) VALUES ('$question_number','$is_correct','$values','$date_created','$date_edited')";
+
+                $result = $mysqli->query($sql);
+            }
+
+            // process data
+            if ($result) {
+                $_SESSION["insert-message"] = "Successfully added new quiz!";
+                $_SESSION["alert-class"] = "alert-success";
+                header("location:add_quiz.php");
+                exit();
+            } else {
+                $_SESSION["insert-message"] = "Transaction Failed!";
+                $_SESSION["alert-class"] = "alert-danger";
+                header("location:add_quiz.php");
+                exit();
+            }
         } else {
-            $_SESSION['alert-class'] = "alert-danger";
-            $_SESSION['category-msg'] = "Failed to register Category";
-            header("location:category.php");
-            exit();
+            $errors['error'] = "Register Failed!";
         }
     }
 }
 
-// category update
-if (isset($_POST['update_categ'])) {
-    $update_category =  mysqli_escape_string($mysqli, $_POST["category"]);
+
+// edit quiz
+if (isset($_POST['edit_quiz_btn'])) {
+    $question_number = $_POST['question_number'];
+    $question_text = $_POST['question_text'];
+    $correct_choice = $_POST['correct_choice'];
+    $choice = $_POST['choices'];
+
+    $choices = array();
+
+    // disperse so that i can assign a number
+    $choices[1]= $choice[0];
+    $choices[2] = $choice[1];
+    $choices[3] = $choice[2];
 
 
-    if ($update_category == NULL) {
-        $errors['category-error'] = "Input field is required!";
+    // check for empty fields
+
+    $fields = [$question_number, $question_text, $correct_choice, $choice[0], $choice[1], $choice[2]];
+
+    foreach ($fields as $field) {
+        if ($field == NULL) {
+            $_SESSION['alert-class'] = "alert-danger";
+            $errors['field-error'] = "All fields are required!";
+            break;
+        }
     }
 
+    // if no error then process data
     if (count($errors) === 0) {
-        // process indormation
-        if (update_category($update_category)) {
-            $_SESSION['alert-class'] = "alert-success";
-            $_SESSION['category-msg'] = "Update Successdully";
-            header("location:category.php");
-            exit();
+        /*
+            1. we need to store them in separate table 
+            2. we need to validate question text and number if succeed the process choices
+            3. if everything is good then redirect it to add quiz page
+        */
+        // process question text and table
+        $is_correct = null;
+        if (update_coc_questions($question_number, $question_text)) {
+            // we have to loop in order to insert 1 by 1
+            foreach ($choices as $key => $values) {
+                if ($key == $correct_choice) {
+                    $is_correct = 1;
+                } else {
+                    $is_correct = 0;
+                }
+
+                // insert data after every loop
+                // $sql = "INSERT INTO `coc1_choices` (`question_number`, `is_correct`, `choices`, `date_created`, `date_edited`) VALUES($question_number, $is_correct, $values, $date_created, $date_edited)";
+
+                $sql = "UPDATE `coc1_choices` SET `is_correct`='$is_correct',`choices`='$values',`date_edited`='$date_edited' WHERE `question_number`='$question_number'";
+
+                $result = $mysqli->query($sql);
+            }
+
+            // process data
+            if ($result) {
+                $_SESSION["insert-message"] = "Update Successfully";
+                $_SESSION["alert-class"] = "alert-success";
+                header("location:add_quiz.php");
+                exit();
+            } else {
+                $_SESSION["insert-message"] = "Transaction Failed!";
+                $_SESSION["alert-class"] = "alert-danger";
+                header("location:add_quiz.php");
+                exit();
+            }
         } else {
-            $_SESSION['alert-class'] = "alert-danger";
-            $_SESSION['category-msg'] = "Failed to update category";
-            header("location:category.php");
-            exit();
+            $errors['error'] = "Register Failed!";
         }
     }
 }
+

@@ -74,7 +74,9 @@ if(!isset($_SESSION['users_role'])){
                 </div>
 
                 <select class="form-select form-select-sm mt-3" name="role" aria-label=".form-select-sm example" >
-                    <option selected value="<?= $account['role']?>">User</option>
+                    <option selected value="<?= $account['role']?>"><?= $account['role']?></option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
                 </select>
 
             </div>

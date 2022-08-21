@@ -41,14 +41,6 @@ $total_users = total_users();
         </div>
         <p class="text-light fs-1"><?=$total_users;?></p>
       </div>
-      
-      <div class="total bg-success">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-        <h4 class="text-light mx-3">Total Category</h4>
-          <i class="bx bxs-category-alt fs-1 text-light"></i>
-        </div>
-        <p class="text-light fs-1">4</p>
-      </div>
     </div>
   </main>
   <?php include "sidebar.php" ?>
