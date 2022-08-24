@@ -1,5 +1,17 @@
-<?php require "controller/authController.php";
+<?php 
+require "controller/authController.php";
 // session_destroy();
+
+if (isset($_SESSION['users_role'])) {
+    if ($_SESSION['users_role'] == "admin") {
+        // redirect to admin
+        header("location:../admin/index.php");
+        exit();
+    } elseif ($_SESSION['users_role'] == "user") {
+        header("location:../user/index.php");
+        exit;
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -20,6 +32,7 @@
         <div class="text-center mt-2 mb-4">
             <h2 class="mt-1 mb-2">Online <span class="text-danger">CSS</span> Quiz</h2>
         </div>
+       
         <form method="POST">
             <?php if (count($errors) > 0) : ?>
                 <div class="alert alert-danger">
@@ -28,7 +41,7 @@
                     <?php endforeach ?>
                 </div>
             <?php endif; ?>
-                        
+
             <?php if (isset($_SESSION['login_status'])) : ?>
                 <p class="alert <?= $_SESSION['alert-class'] ?>"><?= $_SESSION['login_status'] ?></p>
                 <?php unset($_SESSION['login_status']); ?>
@@ -40,7 +53,7 @@
                     <!-- icon -->
                     <i class="fa-solid fa-user input-group-text"></i>
                     <!-- input field -->
-                    <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="addon-wrapping" name="username">
+                    <input type="text" class="form-control" placeholder="Username or Email" aria-label="Username" aria-describedby="addon-wrapping" name="username">
                 </div>
 
                 <div class="input-group flex-nowrap mt-3">

@@ -82,6 +82,7 @@ function validate_password($password, $username)
     $verification_status = password_verify($password, $user_pass['password']);
 
     $_SESSION['users_role'] = $user_pass['role'];
+    $_SESSION['logon-username'] = $user_pass['username'];
     
     return $verification_status;
 }

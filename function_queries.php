@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once __DIR__ . "../login/config.php";
+
+require __DIR__ . "../login/config.php";
 
 date_default_timezone_set("Asia/Manila");
 $date_edited = date("F j, Y, g:i:s A");
@@ -11,6 +11,7 @@ $errors = array();
 if (isset($_SESSION["user_id"])) {
     $id = $_SESSION["user_id"];
 }
+//
 
 #####################################################################################
 function admin_info_query()
@@ -126,9 +127,6 @@ function update_users_data($id, $username, $email, $password, $role)
 #####################################################################################
 
 
-
-
-
 #####################################################################################
 // ADD QUIZ
 // display all questions
@@ -216,11 +214,44 @@ function delete_choices($question_number){
     $result = $mysqli->query($sql);
     return $result;
 }
+
+// return question number
+function question_number($number){
+    global $mysqli;
+
+    $sql = "SELECT * FROM `coc1` WHERE question_number = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("s", $number);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result;
+}
+
+// return choices question number
+
+function get_choices($number){
+    global $mysqli;
+
+    $sql = "SELECT * FROM `coc1_choices` WHERE question_number = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("s", $number);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result;
+}
+
+function is_correct($choice_id){
+
+    global $mysqli;
+
+    $sql = "SELECT * FROM `coc1_choices` WHERE id = '$choice_id'";
+
+    $result = $mysqli->query($sql);
+    
+    return $result;
+}
 // END OF ADD QUIZ
 #####################################################################################
-
-
-
 
 
 // SUBMIT PROCESSING

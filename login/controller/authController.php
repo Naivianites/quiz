@@ -141,10 +141,10 @@ if (isset($_POST['login-btn'])) {
                     exit();
                 }
                 elseif($_SESSION['users_role'] == "user"){
-                    header("location:../sample.php");
+                    
+                    header("location:../user/index.php");
                     exit;
                 }else{
-                    $errors['password'] = $_SESSION['users_role'];
                     header("location:login.php");
                     exit();
                 }

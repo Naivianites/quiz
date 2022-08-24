@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +12,7 @@
   ?>
 
   <!-- my css -->
-  <link rel="stylesheet" href="./css_user/style.css">
+  <link rel="stylesheet" href="./css_user/style.css?v=<?= time();?>">
   <style>
     /* /for some reason it doesn't work on external css */
     #frontpage {
@@ -56,7 +55,7 @@
       <div class="font-container">
         <h2>Online <span id="css">CSS</span> Quiz</h2>
         <p class="mb-5">"How far your knowledge can go? why not test it?"</p>
-        <a href="#">Start Quiz</a>
+        <a href="login/login.php">Start Quiz</a>
       </div>
     </div>
 
@@ -167,7 +166,7 @@
       </div>
     </div>
   </main>
-  <?php include "footer.php" ?>?>
+  <?php include "footer.php" ?>
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- font awesome -->
