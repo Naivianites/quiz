@@ -250,6 +250,28 @@ function is_correct($choice_id){
     
     return $result;
 }
+
+// get_results_quiz
+
+function get_results_quiz(){
+    global $mysqli;
+
+    $sql = "SELECT * FROM `result`";
+    // prepare statement
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+// get quiz results
+function quiz_result($username, $score, $percentage,  $status){
+    global $mysqli, $date_created;
+    
+    $sql = "INSERT INTO `result` (`username`, `date_taken`, `score`, `percentage`, `status`) VALUES(?, ?, ?, ?, ?)";
+    // prepare statement
+    $stmt = $mysqli->prepare($sql);
+    $stmt -> bind_param("sssss", $username, $date_created, $score, $percentage, $status);
+    return $stmt->execute();
+}
 // END OF ADD QUIZ
 #####################################################################################
 

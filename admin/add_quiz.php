@@ -1,4 +1,5 @@
 <?php
+require "../login/functions_query.php";
 require "../function_queries.php";
 
 if (!isset($_SESSION['users_role'])) {
@@ -9,10 +10,6 @@ if (!isset($_SESSION['users_role'])) {
     header("location:../login/login.php");
   }
 }
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +22,13 @@ if (!isset($_SESSION['users_role'])) {
   <title>Admin | Add Quiz</title>
   <?php require "../header_links.php"; ?>
   <link rel="stylesheet" href="../user/css/style.css" />
+
+  <style>
+    #scroll {
+      overflow-y: scroll;
+      height: 500px;
+    }
+  </style>
 </head>
 
 <body>
@@ -34,7 +38,7 @@ if (!isset($_SESSION['users_role'])) {
       <h1 class="text-primary">Add Quiz</h1>
       <!-- Button trigger modal -->
       <a href="add_quiz_data.php" class="btn btn-outline-success quiz_btn">
-        <i class="bx bxs-user-plus fs-1"></i>
+        <span class="fs-1 px-3 ps-3">+</span>
       </a>
     </div>
 
@@ -50,41 +54,44 @@ if (!isset($_SESSION['users_role'])) {
     <?php
     }
     ?>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Question number</th>
-          <th scope="col">Questions</th>
-          <th scope="col">Date Added</th>
-          <th scope="col">Date Edited</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody class="table-group-divider">
-        <?php
-        $result = get_coc_questions();
-        $number_of_questions = $result->num_rows;
-    
-        while ($row = $result->fetch_assoc()) {
-        ?>
-          <tr>
-            <td><?= $row['question_number'] ?></td>
-            <td><?= $row['question_text'] ?></td>
-            <td><?= $row['date_created'] ?></td>
-            <td><?= $row['date_edited'] ?></td>
-            <td>
-              <!-- view, edit and delete -->
-              <!-- class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" -->
-              <a href="edit_quiz.php?id=<?= $row['question_number'] ?>"><i class="fa-solid fa-pen-to-square text-primary fs-5 ms-2 me-2 "></i></a>
-              <a href="delete_quiz.php?delete_id=<?= $row['question_number'] ?>"><i class="fa-solid fa-trash text-danger fs-5"></i></a>
-            </td>
-          </tr>
-        <?php
-        }
-        ?>
+    <div id="scroll">
 
-      </tbody>
-    </table>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Question number</th>
+            <th scope="col">Questions</th>
+            <th scope="col">Date Added</th>
+            <th scope="col">Date Edited</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <?php
+          $result = get_coc_questions();
+          $number_of_questions = $result->num_rows;
+
+          while ($row = $result->fetch_assoc()) {
+          ?>
+            <tr>
+              <td><?= $row['question_number'] ?></td>
+              <td><?= $row['question_text'] ?></td>
+              <td><?= $row['date_created'] ?></td>
+              <td><?= $row['date_edited'] ?></td>
+              <td>
+                <!-- view, edit and delete -->
+                <!-- class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" -->
+                <a href="edit_quiz.php?id=<?= $row['question_number'] ?>"><i class="fa-solid fa-pen-to-square text-primary fs-5 ms-2 me-2 "></i></a>
+                <a href="delete_quiz.php?delete_id=<?= $row['question_number'] ?>"><i class="fa-solid fa-trash text-danger fs-5"></i></a>
+              </td>
+            </tr>
+          <?php
+          }
+          ?>
+
+        </tbody>
+      </table>
+    </div>
   </main>
 
   <!-- side bars -->

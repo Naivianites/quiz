@@ -1,5 +1,5 @@
 <?php
-
+require "../login/functions_query.php";
 require "../function_queries.php";
 
 if(!isset($_SESSION['users_role'])){
@@ -11,6 +11,7 @@ else{
     header("location:../login/login.php");
   }
 }
+
 $total_users = total_users();
 
 ?>
@@ -26,6 +27,9 @@ $total_users = total_users();
   <?php require "../header_links.php"; ?>
   
   <link rel="stylesheet" href="../user/css/style.css" />
+
+ 
+  </style>
 </head>
 
 <body>

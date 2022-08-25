@@ -18,9 +18,6 @@ $total_question = $question_list->num_rows;
 // percentage of the score
 $percentage = ($_SESSION['score'] / $total_question) * 100;
 
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,11 +55,11 @@ $percentage = ($_SESSION['score'] / $total_question) * 100;
         </div>
         <div class="p-5 text-left">
             <h3>Total Score : <strong><?= $_SESSION['score'] ?> / <?= $total_question ?></strong></h3>
-            <h3>Score Percentage : <strong><?= $percentage ?>%</strong></h3>
-
+            <h3>Score Percentage : <strong><?= round($percentage, 2) ?>%</strong></h3>
             <?php
             $status = "PASS";
             $message = "Congratulations, you must be proud to yourself!";
+
             if ($percentage < 75) {
                 $status = "FAILED";
                 $message = "It's OK, but you need to study more";
@@ -73,23 +70,31 @@ $percentage = ($_SESSION['score'] / $total_question) * 100;
 
             } else {
             ?>
-                 <h3>Status: <span class="text-success"><?= $status ?></span></h3>
+                <h3>Status: <span class="text-success"><?= $status ?></span></h3>
                 <h3 class="text-center mt-3"><span class="text-success"><?= $message ?></span></h3>
             <?php
             }
 
-            unset($_SESSION['score']);
+            // get results information and store it to the database
+            $score = (string)$_SESSION['score']." / $total_question";
+            if (quiz_result($_SESSION['logon-username'], $score, $percentage, $status)) {
             ?>
+                <div class="mt-5">
+                    <!-- view answers -->
+                    <!-- <a href="#" class="btn btn-success">View answers</a> -->
+                    <!-- try again -->
+                    <a href="intro_quiz.php" class="btn btn-warning">Try again</a>
+                    <!-- go back home -->
+                    <a href="index.php" class="btn btn-primary">Home</a>
+                    <!-- unset sessions -->
+                </div>
+            <?php
+            unset($_SESSION['score']);
+            }else{
+                echo "error";
+            }
 
-            <div class="mt-5">
-                <!-- view answers -->
-                <a href="#" class="btn btn-success">View answers</a>
-                <!-- try again -->
-                <a href="intro_quiz.php" class="btn btn-warning">Try again</a>
-                <!-- go back home -->
-                <a href="index.php" class="btn btn-primary">Home</a>
-                <!-- unset sessions -->
-            </div>
+            ?>
         </div>
     </div>
 </body>

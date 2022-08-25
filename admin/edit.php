@@ -1,4 +1,5 @@
 <?php
+require "../login/functions_query.php";
 require "../function_queries.php";
 if(!isset($_SESSION['users_role'])){
     header("location:../login/login.php");
